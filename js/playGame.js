@@ -14,19 +14,29 @@ window.addEventListener("keydown", function(event) {
 		jump.start();
 	}
 });
-
+var gameOverFlag = 0;
 var gameOver = function() {
-	loopWorld.stop();
-	loopBuildings.stop();
-	loopClouds.stop();
-	loopGrass.stop();
-	loopDonut.stop();
-	loopCheckDonut.stop();
-	gravity.stop();
-	$('.menu').show();
+	if(!gameOverFlag) {
+		loopWorld.stop();
+		loopBuildings.stop();
+		loopClouds.stop();
+		loopGrass.stop();
+		loopDonut.stop();
+		loopCheckDonut.stop();
+		gravity.stop();
+		$('.menu').show();
+		hurt.play();
+		gameOverFlag = 1;
+		$('.fall').show();
+	}
 };
 
 var play = function() {
+	$('.fall').hide();
+	gameOverFlag = 0;
+	if(hurt.isPlaying) {
+		hurt.stop();
+	}
 	resetGame();
 	loopWorld.start();
 	loopBuildings.start();
@@ -58,6 +68,7 @@ var checkDonut = function() {
 		donuts.remove(donuts.children[0]);
 		donutCounter++;
 		$('.data__donut-counter').text(donutCounter);
+		eatDonutSounds[Math.round(Math.random())].play();
 	}
 	var vector = new THREE.Vector3();
 	vector.setFromMatrixPosition(donuts.children[0].matrixWorld);
@@ -66,9 +77,19 @@ var checkDonut = function() {
 	}
 };
 
+var checkPeter = function() {
+	if(peter.position.y <= 4.7) {
+		gameOver();
+	}
+};
+
 var loopCheckDonut = new THREEx.PhysicsLoop(30);
 loopCheckDonut.add(checkDonut);
 loopCheckDonut.start();
+
+var loopCheckPeter = new THREEx.PhysicsLoop(30);
+loopCheckPeter.add(checkPeter);
+loopCheckPeter.start();
 
 $(".play").click(function(){
 	$('.menu').fadeOut();
