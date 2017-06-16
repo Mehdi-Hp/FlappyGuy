@@ -16,6 +16,28 @@ var light = new THREE.AmbientLight(0xFFFFFF);
 light.position.set(1, 1, 1);
 scene.add(light);
 
+var listener = new THREE.AudioListener();
+var eatDonutSounds = [];
+camera.add(listener);
+var audioLoader = new THREE.AudioLoader();
+var hehehe = new THREE.Audio(listener);
+audioLoader.load( 'sounds/hehehe.mp3', function(buffer)  {
+	hehehe.setBuffer(buffer);
+	hehehe.setVolume(0.5);
+	eatDonutSounds.push(hehehe);
+});
+var hmmm = new THREE.Audio(listener);
+audioLoader.load( 'sounds/hmmm.mp3', function(buffer)  {
+	hmmm.setBuffer(buffer);
+	hmmm.setVolume(0.7);
+	eatDonutSounds.push(hmmm);
+});
+var hurt = new THREE.Audio(listener);
+audioLoader.load('sounds/hurt.mp3', function(buffer)  {
+	hurt.setBuffer(buffer);
+	hurt.setVolume(0.5);
+});
+
 // create clouds
 var clouds = new THREE.Object3D();
 for (var i = 0; i < 10; i++) {
@@ -251,7 +273,7 @@ for (var i = 0; i < 10; i++) {
 		donut.position.x = 0;
 	}
 	else {
-		donut.position.x = donuts.children[donuts.children.length-1].position.x + (Math.random()*20);
+		donut.position.x = donuts.children[donuts.children.length-1].position.x + (Math.random()*7);
 	}
 	donut.position.y = Math.random()*6+5;
 	donut.position.z = 3;
