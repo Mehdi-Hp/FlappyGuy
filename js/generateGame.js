@@ -37,7 +37,7 @@ var generateBuilding = function() {
 };
 var loopBuildings = new THREEx.PhysicsLoop(0.5);
 loopBuildings.add(generateBuilding);
-//
+
 var generateGrass = function() {
 	grass = grasses.children[Math.round(Math.random())].clone();
 	grass.position.y = 2.3 + grass.geometry.parameters.height/3;
